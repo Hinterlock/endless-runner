@@ -5,6 +5,13 @@ let config = {
     width: 970,
     height: 600,
     backgroundColor: '#1d3a69',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 1000 },
+            debug: true
+        }
+    },
     scene: [ Menu, Play ]
 }
 let game = new Phaser.Game(config);
@@ -12,4 +19,4 @@ let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 20;
 let borderPadding = borderUISize / 3;
 // reserve keyboard vars
-let keyA, keyD;
+let keySPACE, keySHIFT;

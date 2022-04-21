@@ -27,12 +27,11 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2 - 2*(borderUISize + borderPadding), ' Endless Runner ', menuConfig).setOrigin(0.5);
 
         // define keys
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keyD)) {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.scene.start("playScene");
         }
     }
