@@ -5,10 +5,16 @@ class Menu extends Phaser.Scene {
 
     preload() {
         // load audio
+
+        //load menu images
+        this.load.image('title_screen', './assets/title_screen.png');
     }
 
     create() {
         this.add.text(20, 20, "Menu");
+
+        //add title image
+        this.title = this.add.image(game.config.width/2, game.config.height/2, 'title_screen');
 
         // text config
         let menuConfig = {
@@ -23,8 +29,6 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
-        // menu text
-        this.add.text(game.config.width/2, game.config.height/2 - 2*(borderUISize + borderPadding), ' Endless Runner ', menuConfig).setOrigin(0.5);
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -32,7 +36,7 @@ class Menu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.scene.start("playScene");
+            this.scene.start("tutorialScene");
         }
     }
 }
