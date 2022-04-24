@@ -11,6 +11,7 @@ class Play extends Phaser.Scene {
         this.load.image('notebookbg', './assets/notebookbg.png');
         this.load.image('clouds', './assets/clouds.png');
         this.load.image('ground', './assets/ground.png');
+        this.load.image('groundEmpty', './assets/groundEmpty.png');
         // load spritesheet
         //this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
@@ -23,8 +24,9 @@ class Play extends Phaser.Scene {
         this.notebookbg = this.add.tileSprite(0, 0, 970, 600, 'notebookbg').setOrigin(0, 0);
         this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
 
+        this.groundImg = this.add.tileSprite(game.config.width/2, game.config.height - borderUISize, 0, 0, 'ground');
         this.ground = this.physics.add.staticGroup();
-        this.ground.create(game.config.width/2, game.config.height - borderUISize, 'ground'); 
+        this.ground.create(game.config.width/2, game.config.height, 'groundEmpty').setOrigin(); 
         
         this.p1Guy = this.physics.add.sprite(game.config.width/2, game.config.height/2, 'guy_stand').setScale(0.3);
 
@@ -43,7 +45,7 @@ class Play extends Phaser.Scene {
 
         // background moving 
         this.clouds.tilePositionX -= -1;
-        this.ground.x -= -3;
+        this.groundImg.tilePositionX -= -3;
 
 
 
