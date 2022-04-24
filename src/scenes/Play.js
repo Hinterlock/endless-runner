@@ -24,7 +24,7 @@ class Play extends Phaser.Scene {
         this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
 
         this.ground = this.physics.add.staticGroup();
-        this.ground.create(game.config.width/2, game.config.height - borderUISize, 'ground'); //hm i can't get the ground png to show?
+        this.ground.create(game.config.width/2, game.config.height - borderUISize, 'ground'); 
         
         this.p1Guy = this.physics.add.sprite(game.config.width/2, game.config.height/2, 'guy_stand').setScale(0.3);
 
@@ -40,6 +40,13 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+
+        // background moving 
+        this.clouds.tilePositionX -= -1;
+        this.ground.x -= -3;
+
+
+
         if (this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
             console.log("SPACE");
             this.p1Guy.setVelocityY(-650);
