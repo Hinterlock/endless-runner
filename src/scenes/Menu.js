@@ -7,14 +7,14 @@ class Menu extends Phaser.Scene {
         // load audio
 
         //load menu images
-        this.load.image('title_screen', './assets/title_screen.png');
+        this.load.image('title', './assets/title.png');
     }
 
     create() {
         this.add.text(20, 20, "Menu");
 
         //add title image
-        this.title = this.add.image(game.config.width/2, game.config.height/2, 'title_screen');
+        this.title = this.add.image(game.config.width/2, game.config.height/2, 'title');
 
         // text config
         let menuConfig = {
