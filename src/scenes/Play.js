@@ -35,12 +35,12 @@ class Play extends Phaser.Scene {
         // animation config
         this.anims.create({
             key: 'jump',
-            frames: this.anims.generateFrameNumbers('guy', {start: 0, end: 2, first: 0}),
+            frames: this.anims.generateFrameNumbers('guy', {start: 0, end: 2}),
             frameRate: 6
         });
         this.anims.create({
             key: 'fall',
-            frames: this.anims.generateFrameNumbers('guy', {start: 3, end: 5, first: 3}),
+            frames: this.anims.generateFrameNumbers('guy', {start: 3, end: 5}),
             frameRate: 6
         });
 
@@ -50,6 +50,7 @@ class Play extends Phaser.Scene {
         
         this.physics.add.collider(this.p1Guy, this.ground);
         this.sliding = false;
+        this.falling = false;
     }
 
     update() {
@@ -58,8 +59,19 @@ class Play extends Phaser.Scene {
         this.clouds.tilePositionX -= -1;
         this.forest.tilePositionX -= -1.5;
         this.groundImg.tilePositionX -= -3;
-
         // falling animation
+        console.log(this.p1Guy.body.velocity);
+        if (this.p1Guy.body.velocity.y > 0 && !this.falling) {
+            this.falling = true;
+            console.log('ah');
+            this.p1Guy.anims.play('fall');
+        }
+
+        // landing
+        if (this.falling && this.p1Guy.body.touching.down) {
+            this.falling = false;
+            this.p1Guy.setTexture('guy_stand');
+        }
 
         // jumping animation
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
