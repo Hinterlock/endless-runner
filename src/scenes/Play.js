@@ -43,6 +43,14 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('guy', {start: 3, end: 5}),
             frameRate: 6
         });
+        /*
+        this.anims.create({
+            key: 'fall',
+            frames: this.anims.generateFrameNumbers('guy', {start: 6, end: 11}),
+            frameRate: 6,
+            repeat: -1
+        });
+        */
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -70,6 +78,7 @@ class Play extends Phaser.Scene {
         if (this.falling && this.p1Guy.body.touching.down) {
             this.falling = false;
             this.p1Guy.setTexture('guy_stand');
+            //this.p1Guy.anims.play('run');
         }
 
         // jumping animation
@@ -84,7 +93,7 @@ class Play extends Phaser.Scene {
 
     startJump(guy) {
         guy.setVelocityY(-650);
-        guy.setTexture('guy');
+        guy.setTexture('guy');//remove
         guy.anims.play('jump');
     }
     
@@ -93,7 +102,8 @@ class Play extends Phaser.Scene {
         this.sliding = true;
         this.time.delayedCall(500, () => {
             this.sliding = false;
-            guy.setTexture('guy_stand');
+            guy.setTexture('guy_stand');//remove
+            //this.p1Guy.anims.play('run');
         });
     }
 }
