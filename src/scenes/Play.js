@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
         this.load.image('ground', './assets/ground.png');
         this.load.image('forest', './assets/forest.png');
         this.load.image('groundEmpty', './assets/groundEmpty.png');
+        this.load.spritesheet('jump', './assets/spritesheet.png', {frameWidth: 655, frameHeight: 602, startFrame: 0, endFrame: 5});
         // load spritesheet
         //this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
