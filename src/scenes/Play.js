@@ -60,7 +60,6 @@ class Play extends Phaser.Scene {
         this.forest.tilePositionX -= -1.5;
         this.groundImg.tilePositionX -= -3;
         // falling animation
-        console.log(this.p1Guy.body.velocity);
         if (this.p1Guy.body.velocity.y > 0 && !this.falling) {
             this.falling = true;
             console.log('ah');
