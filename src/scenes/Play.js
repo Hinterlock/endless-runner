@@ -62,19 +62,27 @@ class Play extends Phaser.Scene {
         // falling animation
 
         // jumping animation
-        if (this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.p1Guy.setVelocityY(-650);
-            this.p1Guy.setTexture('guy');
-            this.p1Guy.anims.play('jump');
+        if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.startJump(this.p1Guy);
         }
         // sliding
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySHIFT)) {
-            this.p1Guy.setTexture('guy_slide');
-            this.sliding = true;
-            this.time.delayedCall(500, () => {
-                this.sliding = false;
-                this.p1Guy.setTexture('guy_stand');
-            });
+            this.startSlide(this.p1Guy);
         }
+    }
+
+    startJump(guy) {
+        guy.setVelocityY(-650);
+        guy.setTexture('guy');
+        guy.anims.play('jump');
+    }
+    
+    startSlide(guy) {
+        guy.setTexture('guy_slide');
+        this.sliding = true;
+        this.time.delayedCall(500, () => {
+            this.sliding = false;
+            guy.setTexture('guy_stand');
+        });
     }
 }
