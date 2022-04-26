@@ -13,12 +13,12 @@ class Play extends Phaser.Scene {
         this.load.image('ground', './assets/ground.png');
         this.load.image('forest', './assets/forest.png');
         this.load.image('groundEmpty', './assets/groundEmpty.png');
+        this.load.image('slug', './assets/slug.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 5});
     }
 
     create() {
-
         // background
         this.notebookbg = this.add.tileSprite(0, 0, 970, 600, 'notebookbg').setOrigin(0, 0);
         this.forest = this.add.tileSprite(0, 0, 970, 600, 'forest').setOrigin(0, 0);
@@ -31,6 +31,11 @@ class Play extends Phaser.Scene {
         this.p1Guy = this.physics.add.sprite(game.config.width/2, game.config.height/2, 'guy_stand').setScale(0.3);
 
         this.p1Guy.setCollideWorldBounds(true);
+
+        //Attempt at spawning slugs
+        //this.slug1 = new Slug(this, game.config.width, game.config.height - borderUISize, 'slug');
+
+        
 
         // animation config
         this.anims.create({
@@ -57,11 +62,13 @@ class Play extends Phaser.Scene {
         keySHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
         
         this.physics.add.collider(this.p1Guy, this.ground);
+
         this.sliding = false;
         this.falling = false;
     }
 
     update() {
+        //this.slug1.update();
 
         // background moving 
         this.clouds.tilePositionX -= -1;
@@ -89,7 +96,27 @@ class Play extends Phaser.Scene {
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySHIFT)) {
             this.startSlide(this.p1Guy);
         }
+
+        
+        // // check collisions
+        // if(this.checkCollision(this.p1Guy, this.slug1)) {
+        //     this.scene.restart();
+        // }
     }
+
+    // checkCollision(player, enemy) {
+    //     // simple AABB checking
+    //     if (player.x < enemy.x + enemy.width && 
+    //         player.x + player.width > enemy.x && 
+    //         player.y < enemy.y + enemy.height &&
+    //         player.height + player.y > enemy. y) {
+    //             console.log("BOOF");
+    //             return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
 
     startJump(guy) {
         guy.setVelocityY(-650);
