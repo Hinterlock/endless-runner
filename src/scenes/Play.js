@@ -39,7 +39,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.enemies, this.ground);
 
         this.p1Score = 0;
-
+        this.timer = 0;
         let scoreConfig = {
             fontFamily: 'Comic Sans MS',
             fontSize: '28px',
@@ -101,8 +101,12 @@ class Play extends Phaser.Scene {
         }
 
         if(this.gameover ==  false){
-            this.p1Score += 1;
-            this.scoreLeft.text = this.p1Score;
+            this.timer += 1;
+            if(this.timer % 6 == 0){
+                this.p1Score += 1;
+                this.scoreLeft.text = this.p1Score;
+            }
+            
         }
         // background moving 
         this.clouds.tilePositionX -= -1;
