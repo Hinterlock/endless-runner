@@ -32,6 +32,7 @@ class Play extends Phaser.Scene {
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
         this.p1Guy.body.setSize(300, 400, true);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
 
         //Attempt at spawning slugs
         this.enemies = this.physics.add.group();
@@ -125,12 +126,14 @@ class Play extends Phaser.Scene {
         guy.anims.stop();
         guy.setTexture('guy_slide');
         this.sliding = true;
-        //this.p1Guy.body.setSize(400, 300, false);
+        this.p1Guy.body.setSize(400, 200, true);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y + 85);
         this.time.delayedCall(500, () => {
             this.sliding = false;
             guy.setTexture('guy');
             this.p1Guy.anims.play('run');
-            //this.p1Guy.body.setSize(300, 400, true);
+            this.p1Guy.body.setSize(300, 400, true);
+            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
         });
     }
 }
