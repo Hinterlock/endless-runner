@@ -31,12 +31,13 @@ class Play extends Phaser.Scene {
         this.p1Guy = this.physics.add.sprite(game.config.width/2, game.config.height/2, 'guy_stand').setScale(0.3);
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
+        this.p1Guy.body.setSize(300, 400, true);
 
         //Attempt at spawning slugs
         this.enemies = this.physics.add.group();
+        this.physics.add.collider(this.enemies, this.ground);
         this.slug1 = new Slug(this, game.config.width, game.config.height - borderUISize*4, 'slug').setScale(0.3);
         this.enemies.add(this.slug1);
-        this.physics.add.collider(this.enemies, this.ground);
 
         
 
@@ -104,10 +105,10 @@ class Play extends Phaser.Scene {
 
     checkCollision(player, enemy) {
         // simple AABB checking
-        if (player.x < enemy.x + enemy.width*enemy.scale && 
-            player.x + player.width*player.scale > enemy.x &&
-            player.y < enemy.y + enemy.height*enemy.scale*.5 &&
-            player.y + player.height*player.scale*.5 > enemy.y) {
+        if (player.body.x < enemy.body.x + enemy.body.width && 
+            player.body.x + player.body.width > enemy.body.x &&
+            player.body.y < enemy.body.y + enemy.body.height &&
+            player.body.y + player.body.height > enemy.body.y) {
                 return true;
         } else {
             return false;
@@ -124,10 +125,12 @@ class Play extends Phaser.Scene {
         guy.anims.stop();
         guy.setTexture('guy_slide');
         this.sliding = true;
+        //this.p1Guy.body.setSize(400, 300, false);
         this.time.delayedCall(500, () => {
             this.sliding = false;
             guy.setTexture('guy');
             this.p1Guy.anims.play('run');
+            //this.p1Guy.body.setSize(300, 400, true);
         });
     }
 }
