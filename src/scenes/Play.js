@@ -29,11 +29,14 @@ class Play extends Phaser.Scene {
         this.ground.create(game.config.width/2, game.config.height, 'groundEmpty').setOrigin(); 
         // create guy
         this.p1Guy = this.physics.add.sprite(game.config.width/2, game.config.height/2, 'guy_stand').setScale(0.3);
-
         this.p1Guy.setCollideWorldBounds(true);
+        this.physics.add.collider(this.p1Guy, this.ground);
 
         //Attempt at spawning slugs
-        //this.slug1 = new Slug(this, game.config.width, game.config.height - borderUISize, 'slug');
+        this.enemies = this.physics.add.group();
+        this.slug1 = new Slug(this, game.config.width, game.config.height - borderUISize*4, 'slug').setScale(0.3);
+        this.enemies.add(this.slug1);
+        this.physics.add.collider(this.enemies, this.ground);
 
         
 
@@ -60,15 +63,13 @@ class Play extends Phaser.Scene {
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keySHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-        
-        this.physics.add.collider(this.p1Guy, this.ground);
 
         this.sliding = false;
         this.falling = false;
     }
 
     update() {
-        //this.slug1.update();
+        this.slug1.update();
 
         // background moving 
         this.clouds.tilePositionX -= -1;
@@ -77,7 +78,6 @@ class Play extends Phaser.Scene {
         // falling animation
         if (this.p1Guy.body.velocity.y > 0 && !this.falling) {
             this.falling = true;
-            console.log('ah');
             this.p1Guy.anims.play('fall');
         }
 
@@ -99,23 +99,22 @@ class Play extends Phaser.Scene {
 
         
         // // check collisions
-        // if(this.checkCollision(this.p1Guy, this.slug1)) {
-        //     this.scene.restart();
-        // }
+        if(this.checkCollision(this.p1Guy, this.slug1)) {
+            this.scene.restart();
+        }
     }
 
-    // checkCollision(player, enemy) {
-    //     // simple AABB checking
-    //     if (player.x < enemy.x + enemy.width && 
-    //         player.x + player.width > enemy.x && 
-    //         player.y < enemy.y + enemy.height &&
-    //         player.height + player.y > enemy. y) {
-    //             console.log("BOOF");
-    //             return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
+    checkCollision(player, enemy) {
+        // simple AABB checking
+        if (player.x < enemy.x + enemy.width*enemy.scale && 
+            player.x + player.width*player.scale > enemy.x &&
+            player.y < enemy.y + enemy.height*enemy.scale*.5 &&
+            player.y + player.height*player.scale*.5 > enemy.y) {
+                return true;
+        } else {
+            return false;
+        }
+    }
 
 
     startJump(guy) {
