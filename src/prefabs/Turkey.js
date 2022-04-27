@@ -10,9 +10,5 @@ class Turkey extends Phaser.Physics.Arcade.Sprite {
     update() {
         //move left
         this.x -= this.moveSpeed;
-        //wrap around
-        if (this.x <= 0 - this.width) {
-            this.destroy();
-        }
     }
 }
