@@ -24,10 +24,12 @@ class Play extends Phaser.Scene {
         this.notebookbg = this.add.tileSprite(0, 0, 970, 600, 'notebookbg').setOrigin(0, 0);
         this.forest = this.add.tileSprite(0, 0, 970, 600, 'forest').setOrigin(0, 0);
         this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
+
         // 2 separate sprites for ground tiling and collision
         this.groundImg = this.add.tileSprite(game.config.width/2, game.config.height - borderUISize, 0, 0, 'ground');
         this.ground = this.physics.add.staticGroup();
         this.ground.create(game.config.width/2, game.config.height, 'groundEmpty').setOrigin(); 
+
         // create guy
         this.p1Guy = this.physics.add.sprite(game.config.width/8, game.config.height/2, 'guy_stand').setScale(0.47);
         this.p1Guy.setCollideWorldBounds(true);
@@ -35,10 +37,14 @@ class Play extends Phaser.Scene {
         this.p1Guy.body.setSize(300, 400, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
 
-        //Attempt at spawning slugs
+        // bus
+        this.bus = this.add.sprite(game.config.width*1.25, game.config.height*.75, 'bus').setScale(0.5);
+
+        // enemy group
         this.enemies = this.physics.add.group();
         this.physics.add.collider(this.enemies, this.ground);
 
+        // initialize score
         this.p1Score = 0;
         this.timer = 0;
         let scoreConfig = {
@@ -54,7 +60,6 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
           }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
-        this.gameover = false;
 
         // animation config
         this.anims.create({
@@ -67,7 +72,6 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('guy', {start: 3, end: 5}),
             frameRate: 6
         });
-        
         this.anims.create({
             key: 'run',
             frames: this.anims.generateFrameNumbers('guy', {start: 6, end: 9}),
@@ -83,13 +87,18 @@ class Play extends Phaser.Scene {
         this.sliding = false;
         this.falling = false;
         this.spawn = true;
-        this.spd = 8;
+        this.spd = 6;
+        this.gameover = false;
+
     }
 
     update() {
+        // enemy spawning
         if (this.spawn) {
             this.newEnemy();
         }
+
+        // enemy updating (movement, deleting, and collison detection)
         for (let i = 0; i < this.enemies.children.size; i++) {
             let enemy = this.enemies.children.entries[i];
             enemy.update();
@@ -100,18 +109,20 @@ class Play extends Phaser.Scene {
             }
         }
 
+        // score iterating
         if(this.gameover ==  false){
             this.timer += 1;
             if(this.timer % 6 == 0){
                 this.p1Score += 1;
                 this.scoreLeft.text = this.p1Score;
             }
-            
         }
+
         // background moving 
         this.clouds.tilePositionX += 1;
         this.forest.tilePositionX += 3;
         this.groundImg.tilePositionX += this.spd;
+
         // falling animation
         if (this.p1Guy.body.velocity.y > 0 && !this.falling && !this.sliding) {
             this.falling = true;
@@ -128,6 +139,7 @@ class Play extends Phaser.Scene {
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.startJump(this.p1Guy);
         }
+
         // sliding
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySHIFT)) {
             this.startSlide(this.p1Guy);
@@ -136,14 +148,15 @@ class Play extends Phaser.Scene {
 
     newEnemy() {
         this.spawn = false;
-        let n = Math.random();
+        let n = Math.random(); // 50/50 chance of either slug or turkey
         this.time.delayedCall(Math.random()*1500 + 1500, () => {
-            if (n < 0.5) {
+            if (n < 0.5) { // slug
                 this.enemies.add(new Slug(this, game.config.width + 50, game.config.height - borderUISize*4, 'slug', undefined, this.spd).setScale(0.3));
+                // hitbox editing
                 let slug = this.enemies.children.entries[this.enemies.children.size - 1];
                 slug.body.setSize(500, 100, true);
                 slug.body.setOffset(slug.body.offset.x, slug.body.offset.y + 20);
-            } else {
+            } else { // turkey
                 this.enemies.add(new Turkey(this, game.config.width + 150, game.config.height - borderUISize*8, 'turkey', undefined, this.spd).setScale(0.3));
                 let turk = this.enemies.children.entries[this.enemies.children.size - 1];
                 turk.body.setSize(400, 200, true);
