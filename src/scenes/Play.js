@@ -25,10 +25,11 @@ class Play extends Phaser.Scene {
         this.forest = this.add.tileSprite(0, 0, 970, 600, 'forest').setOrigin(0, 0);
         this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
 
-        // 2 separate sprites for ground tiling and collision
-        this.groundImg = this.add.tileSprite(game.config.width/2, game.config.height - borderUISize, 0, 0, 'ground');
+        // ground
+        this.groundObj = this.add.tileSprite(game.config.width/2, game.config.height - borderUISize, 0, 0, 'ground');
         this.ground = this.physics.add.staticGroup();
-        this.ground.create(game.config.width/2, game.config.height, 'groundEmpty').setOrigin(); 
+        this.ground.add(this.groundObj);
+        this.groundObj.body.setOffset(this.groundObj.body.offset.x, this.groundObj.body.offset.y + borderUISize);
 
         // create guy
         this.p1Guy = this.physics.add.sprite(game.config.width/2 - 150, game.config.height/2, 'guy_stand').setScale(0.3);
@@ -120,7 +121,7 @@ class Play extends Phaser.Scene {
         // background moving 
         this.clouds.tilePositionX += 1;
         this.forest.tilePositionX += 1.5;
-        this.groundImg.tilePositionX += this.spd;
+        this.groundObj.tilePositionX += this.spd;
 
         // falling animation
         if (this.p1Guy.body.velocity.y > 0 && !this.falling && !this.sliding) {
