@@ -38,7 +38,22 @@ class Play extends Phaser.Scene {
         this.enemies = this.physics.add.group();
         this.physics.add.collider(this.enemies, this.ground);
 
-        
+        this.p1Score = 0;
+
+        let scoreConfig = {
+            fontFamily: 'Comic Sans MS',
+            fontSize: '28px',
+            backgroundColor: '#b0b3b4',
+            color: ' #636869',
+            align: 'right',
+            padding: {
+              top: 5,
+              bottom: 5,
+            },
+            fixedWidth: 100
+          }
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.gameover = false;
 
         // animation config
         this.anims.create({
@@ -85,6 +100,10 @@ class Play extends Phaser.Scene {
             }
         }
 
+        if(this.gameover ==  false){
+            this.p1Score += 1;
+            this.scoreLeft.text = this.p1Score;
+        }
         // background moving 
         this.clouds.tilePositionX -= -1;
         this.forest.tilePositionX -= -1.5;
