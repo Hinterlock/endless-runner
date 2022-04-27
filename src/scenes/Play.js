@@ -29,7 +29,7 @@ class Play extends Phaser.Scene {
         this.ground = this.physics.add.staticGroup();
         this.ground.create(game.config.width/2, game.config.height, 'groundEmpty').setOrigin(); 
         // create guy
-        this.p1Guy = this.physics.add.sprite(game.config.width/2, game.config.height/2, 'guy_stand').setScale(0.3);
+        this.p1Guy = this.physics.add.sprite(game.config.width/2 - 150, game.config.height/2, 'guy_stand').setScale(0.3);
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
         this.p1Guy.body.setSize(300, 400, true);
@@ -83,6 +83,8 @@ class Play extends Phaser.Scene {
         this.sliding = false;
         this.falling = false;
         this.spawn = true;
+
+
     }
 
     update() {
