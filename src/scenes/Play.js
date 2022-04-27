@@ -14,6 +14,7 @@ class Play extends Phaser.Scene {
         this.load.image('forest', './assets/forest.png');
         this.load.image('groundEmpty', './assets/groundEmpty.png');
         this.load.image('slug', './assets/slug.png');
+        this.load.image('turkey', './assets/turkey.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 9});
     }
@@ -86,12 +87,7 @@ class Play extends Phaser.Scene {
 
     update() {
         if (this.spawn) {
-            this.spawn = false;
-            this.time.delayedCall(Math.random()*1000 + 2000, () => {
-                this.enemies.add(new Slug(this, game.config.width, game.config.height - borderUISize*4, 'slug').setScale(0.3));
-                this.spawn = true;
-                console.log(this.enemies.children.entries);
-            });
+            this.newEnemy();
         }
         for (let i = 0; i < this.enemies.children.size; i++) {
             this.enemies.children.entries[i].update();
@@ -132,6 +128,21 @@ class Play extends Phaser.Scene {
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySHIFT)) {
             this.startSlide(this.p1Guy);
         }
+    }
+
+    newEnemy() {
+        this.spawn = false;
+        let n = Math.random();
+        this.time.delayedCall(Math.random()*1500 + 1500, () => {
+            if (n < 0.5) {
+                this.enemies.add(new Slug(this, game.config.width + 150, game.config.height - borderUISize*4, 'slug').setScale(0.3));
+            } else {
+                let turk = new Turkey(this, game.config.width + 150, game.config.height - borderUISize*8, 'turkey').setScale(0.3);
+                this.enemies.add(turk);
+                turk.setAccelerationY(-1000);
+            }
+            this.spawn = true;
+        });
     }
 
     checkCollision(player, enemy) {
