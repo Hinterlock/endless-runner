@@ -37,8 +37,6 @@ class Play extends Phaser.Scene {
         //Attempt at spawning slugs
         this.enemies = this.physics.add.group();
         this.physics.add.collider(this.enemies, this.ground);
-        this.slug1 = new Slug(this, game.config.width, game.config.height - borderUISize*4, 'slug').setScale(0.3);
-        this.enemies.add(this.slug1);
 
         
 
@@ -68,10 +66,24 @@ class Play extends Phaser.Scene {
 
         this.sliding = false;
         this.falling = false;
+        this.spawn = true;
     }
 
     update() {
-        this.slug1.update();
+        if (this.spawn) {
+            this.spawn = false;
+            this.time.delayedCall(Math.random()*1000 + 2000, () => {
+                this.enemies.add(new Slug(this, game.config.width, game.config.height - borderUISize*4, 'slug').setScale(0.3));
+                this.spawn = true;
+                console.log(this.enemies.children.entries);
+            });
+        }
+        for (let i = 0; i < this.enemies.children.size; i++) {
+            this.enemies.children.entries[i].update();
+            if(this.checkCollision(this.p1Guy, this.enemies.children.entries[i])) {
+                this.scene.restart();
+            }
+        }
 
         // background moving 
         this.clouds.tilePositionX -= -1;
@@ -96,11 +108,6 @@ class Play extends Phaser.Scene {
         // sliding
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySHIFT)) {
             this.startSlide(this.p1Guy);
-        }
-        
-        // // check collisions
-        if(this.checkCollision(this.p1Guy, this.slug1)) {
-            this.scene.restart();
         }
     }
 

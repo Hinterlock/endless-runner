@@ -12,11 +12,7 @@ class Slug extends Phaser.Physics.Arcade.Sprite {
         this.x -= this.moveSpeed;
         //wrap around
         if (this.x <= 0 - this.width) {
-            this.reset();
+            this.destroy();
         }
-    }
-    
-    reset() {
-        this.x = game.config.width + this.width;
     }
 }
