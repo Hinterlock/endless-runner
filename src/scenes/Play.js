@@ -15,7 +15,7 @@ class Play extends Phaser.Scene {
         this.load.image('groundEmpty', './assets/groundEmpty.png');
         this.load.image('slug', './assets/slug.png');
         // load spritesheet
-        this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 5});
+        this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 9});
     }
 
     create() {
@@ -51,13 +51,6 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('guy', {start: 3, end: 5}),
             frameRate: 6
         });
-
-        // this.anims.create({
-        //     key: 'run',
-        //     frames: this.anims.generateFrameNumbers('guy', {start: 6, end: 9}),
-        //     frameRate: 6
-        //     repeat: -1
-        // });
         
         this.anims.create({
             key: 'run',
