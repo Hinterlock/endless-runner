@@ -83,8 +83,7 @@ class Play extends Phaser.Scene {
         this.sliding = false;
         this.falling = false;
         this.spawn = true;
-
-
+        this.spd = 6;
     }
 
     update() {
@@ -107,9 +106,9 @@ class Play extends Phaser.Scene {
             
         }
         // background moving 
-        this.clouds.tilePositionX -= -1;
-        this.forest.tilePositionX -= -1.5;
-        this.groundImg.tilePositionX -= -3;
+        this.clouds.tilePositionX += 1;
+        this.forest.tilePositionX += 1.5;
+        this.groundImg.tilePositionX += this.spd;
         // falling animation
         if (this.p1Guy.body.velocity.y > 0 && !this.falling && !this.sliding) {
             this.falling = true;
@@ -137,11 +136,11 @@ class Play extends Phaser.Scene {
         let n = Math.random();
         this.time.delayedCall(Math.random()*1500 + 1500, () => {
             if (n < 0.5) {
-                this.enemies.add(new Slug(this, game.config.width + 150, game.config.height - borderUISize*4, 'slug').setScale(0.3));
+                this.enemies.add(new Slug(this, game.config.width + 150, game.config.height - borderUISize*4, 'slug', undefined, this.spd).setScale(0.3));
             } else {
-                let turk = new Turkey(this, game.config.width + 150, game.config.height - borderUISize*8, 'turkey').setScale(0.3);
+                let turk = new Turkey(this, game.config.width + 150, game.config.height - borderUISize*8, 'turkey', undefined, this.spd).setScale(0.3);
                 this.enemies.add(turk);
-                turk.setAccelerationY(-1000);
+                turk.setAccelerationY(0 - game.config.physics.arcade.gravity.y);
             }
             this.spawn = true;
         });
