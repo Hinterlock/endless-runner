@@ -24,16 +24,21 @@ class Play extends Phaser.Scene {
         this.notebookbg = this.add.tileSprite(0, 0, 970, 600, 'notebookbg').setOrigin(0, 0);
         this.forest = this.add.tileSprite(0, 0, 970, 600, 'forest').setOrigin(0, 0);
         this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
+
         // 2 separate sprites for ground tiling and collision
         this.groundImg = this.add.tileSprite(game.config.width/2, game.config.height - borderUISize, 0, 0, 'ground');
         this.ground = this.physics.add.staticGroup();
         this.ground.create(game.config.width/2, game.config.height, 'groundEmpty').setOrigin(); 
+
         // create guy
         this.p1Guy = this.physics.add.sprite(game.config.width/2 - 150, game.config.height/2, 'guy_stand').setScale(0.3);
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
         this.p1Guy.body.setSize(300, 400, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+
+        // bus
+        this.bus = this.add.sprite(game.config.width*1.25, game.config.height*.75, 'bus').setScale(0.5);
 
         // enemy group
         this.enemies = this.physics.add.group();
