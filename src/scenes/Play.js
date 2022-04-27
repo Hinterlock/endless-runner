@@ -76,7 +76,7 @@ class Play extends Phaser.Scene {
         this.forest.tilePositionX -= -1.5;
         this.groundImg.tilePositionX -= -3;
         // falling animation
-        if (this.p1Guy.body.velocity.y > 0 && !this.falling) {
+        if (this.p1Guy.body.velocity.y > 0 && !this.falling && !this.sliding) {
             this.falling = true;
             this.p1Guy.anims.play('fall');
         }
@@ -84,7 +84,6 @@ class Play extends Phaser.Scene {
         // landing
         if (this.falling && this.p1Guy.body.touching.down) {
             this.falling = false;
-            //this.p1Guy.setTexture('guy_stand');
             this.p1Guy.anims.play('run');
         }
 
@@ -96,10 +95,6 @@ class Play extends Phaser.Scene {
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySHIFT)) {
             this.startSlide(this.p1Guy);
         }
-        //running animation
-        // while (!this.sliding && this.p1Guy.body.touching.down && !(Phaser.Input.Keyboard.JustDown(keySHIFT) || Phaser.Input.Keyboard.JustDown(keySPACE))) {
-        //     this.p1guy.anim.play('run');
-        // }
         
         // // check collisions
         if(this.checkCollision(this.p1Guy, this.slug1)) {
@@ -122,16 +117,16 @@ class Play extends Phaser.Scene {
 
     startJump(guy) {
         guy.setVelocityY(-650);
-        //guy.setTexture('guy');//remove
         guy.anims.play('jump');
     }
     
     startSlide(guy) {
-        //guy.setTexture('guy_slide');
+        guy.anims.stop();
+        guy.setTexture('guy_slide');
         this.sliding = true;
         this.time.delayedCall(500, () => {
             this.sliding = false;
-            //guy.setTexture('guy');//remove
+            guy.setTexture('guy');
             this.p1Guy.anims.play('run');
         });
     }
