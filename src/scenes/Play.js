@@ -15,6 +15,7 @@ class Play extends Phaser.Scene {
         this.load.image('groundEmpty', './assets/groundEmpty.png');
         this.load.image('slug', './assets/slug.png');
         this.load.image('turkey', './assets/turkey.png');
+        this.load.image('gameover', './assets/game_over.png')
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 9});
     }
@@ -84,6 +85,7 @@ class Play extends Phaser.Scene {
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keySHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         this.sliding = false;
         this.falling = false;
@@ -106,7 +108,8 @@ class Play extends Phaser.Scene {
             if (enemy.x <= 0 - enemy.width) {
                 this.enemies.remove(enemy, true, true);
             } else if(this.checkCollision(this.p1Guy, enemy)) {
-                this.scene.restart();
+                this.gameover = true;
+                //this.scene.restart();
             }
         }
 
@@ -117,6 +120,12 @@ class Play extends Phaser.Scene {
                 this.p1Score += 1;
                 this.scoreLeft.text = this.p1Score;
             }
+        }
+        else if(this.gameover == true){
+            this.add.tileSprite(0, 0, 0, 0, 'gameover').setOrigin(0, 0);
+            if (Phaser.Input.Keyboard.JustDown(keyR)) {
+                this.scene.restart();
+            } 
         }
 
         // background moving 
