@@ -85,7 +85,7 @@ class Play extends Phaser.Scene {
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keySHIFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        //keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         this.sliding = false;
         this.falling = false;
@@ -122,10 +122,7 @@ class Play extends Phaser.Scene {
             }
         }
         else if(this.gameover == true){
-            this.add.tileSprite(0, 0, 0, 0, 'gameover').setOrigin(0, 0);
-            if (Phaser.Input.Keyboard.JustDown(keyR)) {
-                this.scene.restart();
-            } 
+            this.scene.start('endgameScene'); 
         }
 
         // background moving 

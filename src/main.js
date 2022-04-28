@@ -12,7 +12,7 @@ let config = {
             debug: true
         }
     },
-    scene: [ Menu, Tutorial, Play ]
+    scene: [ Menu, Tutorial, Play, Endgame ]
 }
 let game = new Phaser.Game(config);
 // set UI sizes
