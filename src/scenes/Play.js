@@ -32,14 +32,14 @@ class Play extends Phaser.Scene {
         this.groundObj.body.setOffset(this.groundObj.body.offset.x, this.groundObj.body.offset.y + borderUISize);
 
         // create guy
-        this.p1Guy = this.physics.add.sprite(game.config.width/8, game.config.height/2, 'guy_stand').setScale(0.47);
+        this.p1Guy = this.physics.add.sprite(game.config.width/8, game.config.height/2, 'guy_stand').setScale(0.42);
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
         this.p1Guy.body.setSize(300, 400, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
 
         // bus
-        this.bus = this.add.sprite(game.config.width*1.25, game.config.height*.75, 'bus').setScale(0.5);
+        this.bus = this.add.sprite(game.config.width*1.47, game.config.height*.55, 'bus').setScale(0.7);
 
         // enemy group
         this.enemies = this.physics.add.group();
@@ -88,7 +88,7 @@ class Play extends Phaser.Scene {
         this.sliding = false;
         this.falling = false;
         this.spawn = true;
-        this.spd = 6;
+        this.spd = 8;
         this.gameover = false;
 
     }
@@ -121,7 +121,7 @@ class Play extends Phaser.Scene {
 
         // background moving 
         this.clouds.tilePositionX += 1;
-        this.forest.tilePositionX += 3;
+        this.forest.tilePositionX += 3.5;
         this.groundImg.tilePositionX += this.spd;
 
         // falling animation
