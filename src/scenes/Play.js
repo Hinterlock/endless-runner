@@ -122,7 +122,7 @@ class Play extends Phaser.Scene {
         // background moving 
         this.clouds.tilePositionX += 1;
         this.forest.tilePositionX += 3.5;
-        this.groundImg.tilePositionX += this.spd;
+        this.groundObj.tilePositionX += this.spd;
 
         // falling animation
         if (this.p1Guy.body.velocity.y > 0 && !this.falling && !this.sliding) {
