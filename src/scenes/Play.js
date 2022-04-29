@@ -40,7 +40,7 @@ class Play extends Phaser.Scene {
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
 
         // bus
-        this.bus = this.add.sprite(game.config.width*1.47, game.config.height*.55, 'bus').setScale(0.7);
+        this.bus = this.add.sprite(game.config.width*1.3, game.config.height*.55, 'bus').setScale(0.7);
 
         // enemy group
         this.enemies = this.physics.add.group();
@@ -108,9 +108,15 @@ class Play extends Phaser.Scene {
             if (enemy.x <= 0 - enemy.width) {
                 this.enemies.remove(enemy, true, true);
             } else if(this.checkCollision(this.p1Guy, enemy)) {
-                this.gameover = true;
+                this.bus.setX(this.bus.x + 3.65);
+                //this.gameover = true;
                 //this.scene.restart();
             }
+        }
+
+        if(this.bus.x > game.config.width + 500){
+            console.log("bus left");
+            this.gameover = true;
         }
 
         // score iterating
