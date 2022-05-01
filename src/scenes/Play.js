@@ -21,7 +21,8 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
         // load sound effects
         this.load.audio('jump', './assets/jump.mp3');
-        this.load.audio('pullaway', './assets/pullaway.wav');
+        this.load.audio('crash', './assets/crash.wav');
+        //this.load.audio('pullaway', './assets/pullaway.wav');
     }
 
     create() {
@@ -128,6 +129,7 @@ class Play extends Phaser.Scene {
                     this.spd = this.initSpd;
                     this.stumble = false;
                 });
+                this.sound.play('crash');
                 // play tripping animation
                 this.p1Guy.anims.play('trip');
                 this.p1Guy.on('animationcomplete', () => {
