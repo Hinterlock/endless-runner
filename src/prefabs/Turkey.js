@@ -4,9 +4,16 @@ class Turkey extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.moveSpeed = spd + 5;
+        this.active = true;
     }
 
-
+    deactivate() {
+        this.active = false;
+    }
+    isActive() {
+        return this.active;
+    }
+    
     update() {
         //move left
         this.x -= this.moveSpeed;

@@ -36,7 +36,6 @@ class Menu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            console.log('hi');
             this.scene.start("tutorialScene");
         }
     }
