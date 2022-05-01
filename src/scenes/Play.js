@@ -40,7 +40,7 @@ class Play extends Phaser.Scene {
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
 
         // bus
-        this.bus = this.add.sprite(game.config.width*1.3, game.config.height*.55, 'bus').setScale(0.7);
+        this.bus = this.add.sprite(game.config.width*1.1, game.config.height*.60, 'bus').setScale(0.7);
 
         // enemy group
         this.enemies = this.physics.add.group();
@@ -90,7 +90,8 @@ class Play extends Phaser.Scene {
         this.sliding = false;
         this.falling = false;
         this.spawn = true;
-        this.spd = 8;
+        this.initSpd = 8;
+        this.spd = this.initSpd;
         this.gameover = false;
         this.stumble = false;
     }
@@ -113,11 +114,11 @@ class Play extends Phaser.Scene {
             } else if(this.checkCollision(this.p1Guy, enemy) && enemy.isActive()) {
                 enemy.deactivate();
                 //console.log('a');
-                this.spd = 2;
+                this.spd = this.initSpd/4;
                 this.stumble = true;
-                this.time.delayedCall(500, () => {
+                this.time.delayedCall(300, () => {
                     //console.log('b');
-                    this.spd = 8;
+                    this.spd = this.initSpd;
                     this.stumble = false;
                 });
                 // play tripping animation
@@ -128,6 +129,7 @@ class Play extends Phaser.Scene {
             console.log("bus left");
             this.gameover = true;
         }
+        this.bus.y += Math.sin(this.time.now/300);
 
         // score iterating
         if(this.gameover ==  false){
@@ -148,7 +150,7 @@ class Play extends Phaser.Scene {
 
         // bus moving
         if (this.stumble) {
-            this.bus.setX(this.bus.x + 3);
+            this.bus.setX(this.bus.x + 6);
         }
 
         // falling animation
@@ -179,13 +181,13 @@ class Play extends Phaser.Scene {
         let n = Math.random(); // 50/50 chance of either slug or turkey
         this.time.delayedCall(Math.random()*1500 + 1500, () => {
             if (n < 0.5) { // slug
-                this.enemies.add(new Slug(this, game.config.width + 50, game.config.height - borderUISize*4, 'slug', undefined, this.spd).setScale(0.3));
+                this.enemies.add(new Slug(this, game.config.width + 50, game.config.height - borderUISize*4, 'slug', undefined, this.initSpd).setScale(0.3));
                 // hitbox editing
                 let slug = this.enemies.children.entries[this.enemies.children.size - 1];
                 slug.body.setSize(500, 100, true);
                 slug.body.setOffset(slug.body.offset.x, slug.body.offset.y + 20);
             } else { // turkey
-                this.enemies.add(new Turkey(this, game.config.width + 150, game.config.height - borderUISize*8, 'turkey', undefined, this.spd).setScale(0.3));
+                this.enemies.add(new Turkey(this, game.config.width + 150, game.config.height - borderUISize*8, 'turkey', undefined, this.initSpd).setScale(0.3));
                 let turk = this.enemies.children.entries[this.enemies.children.size - 1];
                 turk.body.setSize(400, 200, true);
                 turk.body.setOffset(turk.body.offset.x, turk.body.offset.y + 20);
