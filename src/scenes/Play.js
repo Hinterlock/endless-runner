@@ -15,6 +15,7 @@ class Play extends Phaser.Scene {
         this.load.image('groundEmpty', './assets/groundEmpty.png');
         this.load.image('slug', './assets/slug.png');
         this.load.image('turkey', './assets/turkey.png');
+        this.load.image('student', './assets/student.png');
         this.load.image('gameover', './assets/game_over.png')
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 9});
@@ -129,7 +130,6 @@ class Play extends Phaser.Scene {
             console.log("bus left");
             this.gameover = true;
         }
-        this.bus.y += Math.sin(this.time.now/300);
 
         // score iterating
         if(this.gameover ==  false){
@@ -152,6 +152,7 @@ class Play extends Phaser.Scene {
         if (this.stumble) {
             this.bus.setX(this.bus.x + 6);
         }
+        this.bus.y += Math.sin(this.time.now/300)/2;
 
         // falling animation
         if (this.p1Guy.body.velocity.y > 0 && !this.falling && !this.sliding) {
@@ -180,18 +181,22 @@ class Play extends Phaser.Scene {
         this.spawn = false;
         let n = Math.random(); // 50/50 chance of either slug or turkey
         this.time.delayedCall(Math.random()*1500 + 1500, () => {
-            if (n < 0.5) { // slug
+            if (n < 0.33) { // slug
                 this.enemies.add(new Slug(this, game.config.width + 50, game.config.height - borderUISize*4, 'slug', undefined, this.initSpd).setScale(0.3));
                 // hitbox editing
                 let slug = this.enemies.children.entries[this.enemies.children.size - 1];
                 slug.body.setSize(500, 100, true);
                 slug.body.setOffset(slug.body.offset.x, slug.body.offset.y + 20);
-            } else { // turkey
+            } else if (n < 0.66) { // turkey
                 this.enemies.add(new Turkey(this, game.config.width + 150, game.config.height - borderUISize*8, 'turkey', undefined, this.initSpd).setScale(0.3));
                 let turk = this.enemies.children.entries[this.enemies.children.size - 1];
                 turk.body.setSize(400, 200, true);
                 turk.body.setOffset(turk.body.offset.x, turk.body.offset.y + 20);
                 turk.body.setAccelerationY(0 - game.config.physics.arcade.gravity.y);
+            } else { //student
+                this.enemies.add(new Student(this, game.config.width + 150, game.config.height - borderUISize*8, 'student', undefined, this.initSpd).setScale(0.3));
+                let student = this.enemies.children.entries[this.enemies.children.size - 1];
+                student.body.setSize(400, 200, true);
             }
             this.spawn = true;
         });
