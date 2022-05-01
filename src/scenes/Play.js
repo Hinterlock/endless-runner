@@ -16,9 +16,12 @@ class Play extends Phaser.Scene {
         this.load.image('slug', './assets/slug.png');
         this.load.image('turkey', './assets/turkey.png');
         this.load.image('student', './assets/student.png');
-        this.load.image('gameover', './assets/game_over.png')
+        this.load.image('gameover', './assets/game_over.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
+        // load sound effects
+        this.load.audio('jump', './assets/jump.mp3');
+        this.load.audio('pullaway', './assets/pullaway.wav');
     }
 
     create() {
@@ -54,7 +57,7 @@ class Play extends Phaser.Scene {
             fontFamily: 'Comic Sans MS',
             fontSize: '28px',
             backgroundColor: '#b0b3b4',
-            color: ' #636869',
+            color: ' #634c58',
             align: 'right',
             padding: {
               top: 5,
@@ -158,6 +161,7 @@ class Play extends Phaser.Scene {
         // bus moving
         if (this.stumble) {
             this.bus.setX(this.bus.x + 3);
+            //this.sound.play('pullaway'); holy fuck this is so loud i need to change it
         }
         this.bus.y += Math.sin(this.time.now/300)/2;
 
@@ -175,7 +179,8 @@ class Play extends Phaser.Scene {
 
         // jumping animation
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.startJump(this.p1Guy);
+            this.startJump(this.p1Guy)
+            this.sound.play('jump');
         }
         if (!this.falling && !this.p1Guy.body.touching.down && keySPACE.isDown) {
             //console.log('jumpHold');
@@ -211,7 +216,7 @@ class Play extends Phaser.Scene {
                 turk.body.setOffset(turk.body.offset.x, turk.body.offset.y + 20);
                 turk.body.setAccelerationY(0 - game.config.physics.arcade.gravity.y);
             } else { //student
-                this.enemies.add(new Student(this, game.config.width + 150, game.config.height - borderUISize*8, 'student', undefined, this.initSpd).setScale(0.3));
+                this.enemies.add(new Student(this, game.config.width + 150, game.config.height - borderUISize*8, 'student', undefined, this.initSpd).setScale(0.375));
                 let student = this.enemies.children.entries[this.enemies.children.size - 1];
                 student.body.setSize(200, 450, true);
                 student.body.setOffset(student.body.offset.x - 100, student.body.offset.y);
