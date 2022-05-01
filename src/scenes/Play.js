@@ -18,7 +18,7 @@ class Play extends Phaser.Scene {
         this.load.image('student', './assets/student.png');
         this.load.image('gameover', './assets/game_over.png')
         // load spritesheet
-        this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
     }
 
     create() {
@@ -81,7 +81,11 @@ class Play extends Phaser.Scene {
             frameRate: 9,
             repeat: -1
         });
-        
+        this.anims.create({
+            key: 'trip', 
+            frames: this.anims.generateFrameNumbers('guy', {start: 9, end: 12}),
+            frameRate: 6
+        })
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -123,6 +127,8 @@ class Play extends Phaser.Scene {
                     this.stumble = false;
                 });
                 // play tripping animation
+                //this.p1Guy.anims.play('trip'); 
+                
             }
         }
 
