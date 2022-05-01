@@ -40,7 +40,7 @@ class Play extends Phaser.Scene {
         this.p1Guy = this.physics.add.sprite(game.config.width/8, game.config.height/2, 'guy_stand').setScale(0.42);
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
-        this.p1Guy.body.setSize(300, 400, true);
+        this.p1Guy.body.setSize(200, 400, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
 
         // bus
@@ -86,7 +86,7 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'trip', 
-            frames: this.anims.generateFrameNumbers('guy', {start: 9, end: 12}),
+            frames: this.anims.generateFrameNumbers('guy', {start: 10, end: 12}),
             frameRate: 6
         })
 
@@ -130,7 +130,10 @@ class Play extends Phaser.Scene {
                     this.stumble = false;
                 });
                 // play tripping animation
-                //this.p1Guy.anims.play('trip'); 
+                this.p1Guy.anims.play('trip');
+                this.p1Guy.on('animationcomplete', () => {
+                    this.p1Guy.anims.play('run');
+                });
                 
             }
         }
@@ -207,7 +210,8 @@ class Play extends Phaser.Scene {
             } else { //student
                 this.enemies.add(new Student(this, game.config.width + 150, game.config.height - borderUISize*8, 'student', undefined, this.initSpd).setScale(0.375));
                 let student = this.enemies.children.entries[this.enemies.children.size - 1];
-                student.body.setSize(400, 200, true);
+                student.body.setSize(200, 450, true);
+                student.body.setOffset(student.body.offset.x - 100, student.body.offset.y);
             }
             this.spawn = true;
         });
@@ -241,7 +245,7 @@ class Play extends Phaser.Scene {
             this.sliding = false;
             guy.setTexture('guy');
             this.p1Guy.anims.play('run');
-            this.p1Guy.body.setSize(300, 400, true);
+            this.p1Guy.body.setSize(200, 400, true);
             this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
         });
     }
