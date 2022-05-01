@@ -4,8 +4,14 @@ class Slug extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.moveSpeed = spd;
+        this.active = true;
     }
-
+    isActive() {
+        return this.active;
+    }
+    deactivate() {
+        this.active = false;
+    }
 
     update() {
         //move slug left

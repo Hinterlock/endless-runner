@@ -92,7 +92,7 @@ class Play extends Phaser.Scene {
         this.spawn = true;
         this.spd = 8;
         this.gameover = false;
-
+        this.stumble = false;
     }
 
     update() {
@@ -105,12 +105,22 @@ class Play extends Phaser.Scene {
         for (let i = 0; i < this.enemies.children.size; i++) {
             let enemy = this.enemies.children.entries[i];
             enemy.update();
+            if (this.stumble) {
+                enemy.setX(enemy.x + 6);
+            }
             if (enemy.x <= 0 - enemy.width) {
                 this.enemies.remove(enemy, true, true);
-            } else if(this.checkCollision(this.p1Guy, enemy)) {
-                this.bus.setX(this.bus.x + 3.65);
-                //this.gameover = true;
-                //this.scene.restart();
+            } else if(this.checkCollision(this.p1Guy, enemy) && enemy.isActive()) {
+                enemy.deactivate();
+                //console.log('a');
+                this.spd = 2;
+                this.stumble = true;
+                this.time.delayedCall(500, () => {
+                    //console.log('b');
+                    this.spd = 8;
+                    this.stumble = false;
+                });
+                // play tripping animation
             }
         }
 
@@ -132,9 +142,14 @@ class Play extends Phaser.Scene {
         }
 
         // background moving 
-        this.clouds.tilePositionX += 1;
-        this.forest.tilePositionX += 3.5;
+        this.clouds.tilePositionX += this.spd / 8;
+        this.forest.tilePositionX += this.spd / 2.5;
         this.groundObj.tilePositionX += this.spd;
+
+        // bus moving
+        if (this.stumble) {
+            this.bus.setX(this.bus.x + 3);
+        }
 
         // falling animation
         if (this.p1Guy.body.velocity.y > 0 && !this.falling && !this.sliding) {
