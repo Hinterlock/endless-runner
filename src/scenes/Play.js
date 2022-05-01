@@ -150,7 +150,7 @@ class Play extends Phaser.Scene {
 
         // bus moving
         if (this.stumble) {
-            this.bus.setX(this.bus.x + 6);
+            this.bus.setX(this.bus.x + 3);
         }
 
         // falling animation
