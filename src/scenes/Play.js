@@ -99,6 +99,7 @@ class Play extends Phaser.Scene {
         this.spd = this.initSpd;
         this.gameover = false;
         this.stumble = false;
+        this.slideDelay = false;
     }
 
     update() {
@@ -118,11 +119,9 @@ class Play extends Phaser.Scene {
                 this.enemies.remove(enemy, true, true);
             } else if(this.checkCollision(this.p1Guy, enemy) && enemy.isActive()) {
                 enemy.deactivate();
-                //console.log('a');
                 this.spd = this.initSpd/4;
                 this.stumble = true;
                 this.time.delayedCall(300, () => {
-                    //console.log('b');
                     this.spd = this.initSpd;
                     this.stumble = false;
                 });
@@ -147,8 +146,7 @@ class Play extends Phaser.Scene {
                 this.p1Score += 1;
                 this.scoreLeft.text = this.p1Score;
             }
-        }
-        else if(this.gameover == true){
+        } else if(this.gameover == true){
             this.scene.start('endgameScene'); 
         }
 
@@ -179,10 +177,20 @@ class Play extends Phaser.Scene {
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.startJump(this.p1Guy);
         }
+        if (!this.falling && !this.p1Guy.body.touching.down && keySPACE.isDown) {
+            //console.log('jumpHold');
+            this.p1Guy.setAccelerationY(-400);
+        } else {
+            this.p1Guy.setAccelerationY(0);
+        }
 
         // sliding
-        if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySHIFT)) {
+        if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySHIFT) && !this.slideDelay) {
             this.startSlide(this.p1Guy);
+        }
+        if (this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustUp(keySHIFT) && !this.slideDelay) {
+            console.log('ah');
+            this.endSlide(this.p1Guy);
         }
     }
 
@@ -226,7 +234,7 @@ class Play extends Phaser.Scene {
 
 
     startJump(guy) {
-        guy.setVelocityY(-650);
+        guy.setVelocityY(-600);
         guy.anims.play('jump');
     }
     
@@ -236,12 +244,17 @@ class Play extends Phaser.Scene {
         this.sliding = true;
         this.p1Guy.body.setSize(400, 200, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y + 85);
-        this.time.delayedCall(500, () => {
-            this.sliding = false;
-            guy.setTexture('guy');
-            this.p1Guy.anims.play('run');
-            this.p1Guy.body.setSize(200, 400, true);
-            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+    }
+
+    endSlide(guy) {
+        this.slideDelay = true;
+        this.sliding = false;
+        guy.setTexture('guy');
+        this.p1Guy.anims.play('run');
+        this.p1Guy.body.setSize(200, 400, true);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+        this.time.delayedCall(700, () => {
+            this.slideDelay = false;
         });
     }
 }
