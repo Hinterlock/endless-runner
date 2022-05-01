@@ -138,7 +138,6 @@ class Play extends Phaser.Scene {
         }
 
         if(this.bus.x > game.config.width + 500){
-            console.log("bus left");
             this.gameover = true;
         }
 
@@ -183,7 +182,6 @@ class Play extends Phaser.Scene {
             this.sound.play('jump');
         }
         if (!this.falling && !this.p1Guy.body.touching.down && keySPACE.isDown) {
-            //console.log('jumpHold');
             this.p1Guy.setAccelerationY(-400);
         } else {
             this.p1Guy.setAccelerationY(0);
@@ -194,7 +192,6 @@ class Play extends Phaser.Scene {
             this.startSlide(this.p1Guy);
         }
         if (this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustUp(keySHIFT) && !this.slideDelay) {
-            console.log('ah');
             this.endSlide(this.p1Guy);
         }
     }
