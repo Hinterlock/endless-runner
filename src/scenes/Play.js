@@ -19,7 +19,7 @@ class Play extends Phaser.Scene {
         this.load.image('gameover', './assets/game_over.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
-        this.load.spritesheet('guy_run', './assets/guy_run.png', {frameWidth: 285, frameHeight: 333, startFrame: 0, endFrame: 21});
+        this.load.spritesheet('guy_run', './assets/guy_run.png', {frameWidth: 285, frameHeight: 333, startFrame: 0, endFrame: 20});
         // load sound effects
         this.load.audio('jump', './assets/jump.mp3');
         this.load.audio('crash', './assets/crash.wav');
