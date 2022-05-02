@@ -19,6 +19,7 @@ class Play extends Phaser.Scene {
         this.load.image('gameover', './assets/game_over.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
+        this.load.spritesheet('guy_run', './assets/guy_run.png', {frameWidth: 285, frameHeight: 333, startFrame: 0, endFrame: 20});
         // load sound effects
         this.load.audio('jump', './assets/jump.mp3');
         this.load.audio('crash', './assets/crash.wav');
@@ -81,8 +82,8 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('guy', {start: 6, end: 9}),
-            frameRate: 9,
+            frames: this.anims.generateFrameNumbers('guy_run', {start: 0, end: 21}),
+            frameRate: 3,
             repeat: -1
         });
         this.anims.create({
@@ -134,6 +135,8 @@ class Play extends Phaser.Scene {
                 this.p1Guy.anims.play('trip');
                 this.p1Guy.on('animationcomplete', () => {
                     this.p1Guy.anims.play('run');
+                    this.p1Guy.body.setSize(200, 400, true);
+                    this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
                 });
                 
             }
@@ -170,12 +173,16 @@ class Play extends Phaser.Scene {
         if (this.p1Guy.body.velocity.y > 0 && !this.falling && !this.sliding) {
             this.falling = true;
             this.p1Guy.anims.play('fall');
+            this.p1Guy.body.setSize(200, 400, true);
+            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
         }
 
         // landing
         if (this.falling && this.p1Guy.body.touching.down) {
             this.falling = false;
             this.p1Guy.anims.play('run');
+            this.p1Guy.body.setSize(200, 400, true);
+            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
         }
 
         // jumping animation
@@ -240,6 +247,8 @@ class Play extends Phaser.Scene {
     startJump(guy) {
         guy.setVelocityY(-600);
         guy.anims.play('jump');
+        this.p1Guy.body.setSize(200, 400, true);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
     }
     
     startSlide(guy) {
