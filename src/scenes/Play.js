@@ -19,7 +19,10 @@ class Play extends Phaser.Scene {
         this.load.image('gameover', './assets/game_over.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
-        this.load.spritesheet('guy_run', './assets/guy_run.png', {frameWidth: 285, frameHeight: 333, startFrame: 0, endFrame: 20});
+        this.load.spritesheet('run', './assets/run_spritesheet.png', {frameWidth: 457, frameHeight: 577, startFrame: 0, endFrame: 16});
+        this.load.spritesheet('jump', './assets/jump_spritesheet.png', {frameWidth: 457, frameHeight: 577, startFrame: 0, endFrame: 12});
+        this.load.spritesheet('slide', './assets/slide_spritesheet.png', {frameWidth: 457, frameHeight: 577, startFrame: 0, endFrame: 17});
+        this.load.spritesheet('trip', './assets/trip_spritesheet.png', {frameWidth: 457, frameHeight: 577, startFrame: 0, endFrame: 5});
         // load sound effects
         this.load.audio('jump', './assets/jump.mp3');
         this.load.audio('crash', './assets/crash.wav');
@@ -44,6 +47,9 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.p1Guy, this.ground);
         this.p1Guy.body.setSize(200, 400, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+
+        //anim scale test
+        
 
         // bus
         this.bus = this.add.sprite(game.config.width*1.1, game.config.height*.60, 'bus').setScale(0.7);
@@ -72,23 +78,23 @@ class Play extends Phaser.Scene {
         // animation config
         this.anims.create({
             key: 'jump',
-            frames: this.anims.generateFrameNumbers('guy', {start: 0, end: 2}),
+            frames: this.anims.generateFrameNumbers('jump', {start: 0, end: 6}),
             frameRate: 6
         });
         this.anims.create({
             key: 'fall',
-            frames: this.anims.generateFrameNumbers('guy', {start: 3, end: 5}),
+            frames: this.anims.generateFrameNumbers('jump', {start: 6, end: 12}),
             frameRate: 6
         });
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('guy_run', {start: 0, end: 21}),
-            frameRate: 3,
+            frames: this.anims.generateFrameNumbers('run', {start: 0, end: 16}),
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'trip', 
-            frames: this.anims.generateFrameNumbers('guy', {start: 10, end: 12}),
+            frames: this.anims.generateFrameNumbers('trip', {start: 0, end: 5}),
             frameRate: 6
         })
 
