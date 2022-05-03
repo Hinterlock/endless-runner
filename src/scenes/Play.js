@@ -95,7 +95,7 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('run', {start: 1, end: 15}),
+            frames: this.anims.generateFrameNumbers('run', {start: 0, end: 14}),
             frameRate: 10,
             repeat: -1
         });
@@ -103,12 +103,23 @@ class Play extends Phaser.Scene {
             key: 'trip', 
             frames: this.anims.generateFrameNumbers('trip', {start: 0, end: 5}),
             frameRate: 6
-        })
+        });
         this.anims.create({
             key: 'slide', 
-            frames: this.anims.generateFrameNumbers('slide', {start: 0, end: 16}),
+            frames: this.anims.generateFrameNumbers('slide', {start: 0, end: 7}),
             frameRate: 10
-        })
+        });
+        this.anims.create({
+            key: 'sliding', 
+            frames: this.anims.generateFrameNumbers('slide', {start: 7, end: 11}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'endSlide', 
+            frames: this.anims.generateFrameNumbers('slide', {start: 11, end: 15}),
+            frameRate: 10,
+        });
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -156,9 +167,7 @@ class Play extends Phaser.Scene {
                 // play tripping animation
                 this.p1Guy.anims.play('trip');
                 this.p1Guy.on('animationcomplete', () => {
-                    this.p1Guy.anims.play('run');
-                    this.p1Guy.body.setSize(200, 400, true);
-                    this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
+                    this.roll(this.p1Guy);
                 });
                 
             }
@@ -193,6 +202,7 @@ class Play extends Phaser.Scene {
             this.bus.setX(this.bus.x + 3);
             //this.sound.play('pullaway'); holy fuck this is so loud i need to change it
         }
+        // bus bobbing
         this.bus.y += Math.sin(this.time.now/300)/2;
 
         // falling animation
@@ -206,16 +216,14 @@ class Play extends Phaser.Scene {
         // landing
         if (this.falling && this.p1Guy.body.touching.down) {
             this.falling = false;
-            this.p1Guy.anims.play('run');
-            this.p1Guy.body.setSize(200, 400, true);
-            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
+            this.roll(this.p1Guy);
         }
 
         // jumping animation
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.startJump(this.p1Guy)
-            this.sound.play('jump');
+            this.startJump(this.p1Guy);
         }
+        // extended jump if space is held down
         if (!this.falling && !this.p1Guy.body.touching.down && keySPACE.isDown) {
             this.p1Guy.setAccelerationY(-400);
         } else {
@@ -271,30 +279,40 @@ class Play extends Phaser.Scene {
 
 
     startJump(guy) {
+        this.sound.play('jump');
         guy.setVelocityY(-600);
         guy.anims.play('jump');
-        this.p1Guy.body.setSize(200, 400, true);
-        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
+        guy.body.setSize(200, 400, true);
+        guy.body.setOffset(guy.body.offset.x + 50, guy.body.offset.y - 15);
     }
     
     startSlide(guy) {
-        guy.anims.stop();
-        guy.setTexture('guy');
-        this.p1Guy.anims.play('slide');
+        guy.anims.play('slide');
         this.sliding = true;
-        this.p1Guy.body.setSize(400, 200, true);
-        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y + 85);
+        guy.body.setSize(200, 250, true);
+        guy.body.setOffset(guy.body.offset.x + 50, guy.body.offset.y + 60);
+        guy.on('animationcomplete', () => {
+            guy.anims.play('sliding');
+        });
     }
 
     endSlide(guy) {
         this.slideDelay = true;
+        guy.anims.play('endSlide');
         this.sliding = false;
-        guy.setTexture('guy');
-        this.p1Guy.anims.play('run');
-        this.p1Guy.body.setSize(200, 400, true);
-        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
-        this.time.delayedCall(700, () => {
+        guy.on('animationcomplete', () => {
+            guy.anims.play('run');
+        });
+        guy.body.setSize(200, 400, true);
+        guy.body.setOffset(guy.body.offset.x + 50, guy.body.offset.y - 15);
+        this.time.delayedCall(200, () => {
             this.slideDelay = false;
         });
+    }
+
+    roll(guy) {
+        guy.anims.play('run');
+        guy.body.setSize(200, 400, true);
+        guy.body.setOffset(guy.body.offset.x + 50, guy.body.offset.y - 15);
     }
 }
