@@ -53,7 +53,7 @@ class Play extends Phaser.Scene {
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
         this.p1Guy.body.setSize(200, 400, true);
-        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
 
         //anim scale test
         
@@ -153,7 +153,7 @@ class Play extends Phaser.Scene {
                 this.p1Guy.on('animationcomplete', () => {
                     this.p1Guy.anims.play('run');
                     this.p1Guy.body.setSize(200, 400, true);
-                    this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+                    this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
                 });
                 
             }
@@ -195,7 +195,7 @@ class Play extends Phaser.Scene {
             this.falling = true;
             this.p1Guy.anims.play('fall');
             this.p1Guy.body.setSize(200, 400, true);
-            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
         }
 
         // landing
@@ -203,7 +203,7 @@ class Play extends Phaser.Scene {
             this.falling = false;
             this.p1Guy.anims.play('run');
             this.p1Guy.body.setSize(200, 400, true);
-            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
         }
 
         // jumping animation
@@ -269,7 +269,7 @@ class Play extends Phaser.Scene {
         guy.setVelocityY(-600);
         guy.anims.play('jump');
         this.p1Guy.body.setSize(200, 400, true);
-        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
     }
     
     startSlide(guy) {
@@ -286,7 +286,7 @@ class Play extends Phaser.Scene {
         guy.setTexture('guy');
         this.p1Guy.anims.play('run');
         this.p1Guy.body.setSize(200, 400, true);
-        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y - 15);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
         this.time.delayedCall(700, () => {
             this.slideDelay = false;
         });
