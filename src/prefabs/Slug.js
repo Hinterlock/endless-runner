@@ -5,6 +5,7 @@ class Slug extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.moveSpeed = spd;
         this.active = true;
+        this.isSlug = true;
     }
     isActive() {
         return this.active;

@@ -136,6 +136,10 @@ class Play extends Phaser.Scene {
             if (enemy.x <= 0 - enemy.width) {
                 this.enemies.remove(enemy, true, true);
             } else if(this.checkCollision(this.p1Guy, enemy) && enemy.isActive()) {
+                if(enemy.isSlug == true){
+                    console.log("lol");
+                    this.gameover = true;
+                }
                 enemy.deactivate();
                 this.spd = this.initSpd/4;
                 this.stumble = true;

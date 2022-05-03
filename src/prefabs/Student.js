@@ -5,6 +5,7 @@ class Student extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.moveSpeed = spd + 3;
         this.active = true;
+        this.isSlug = false;
     }
 
     deactivate() {
