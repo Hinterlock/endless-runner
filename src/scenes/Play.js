@@ -55,8 +55,6 @@ class Play extends Phaser.Scene {
         this.p1Guy.body.setSize(200, 400, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
 
-        //anim scale test
-        
 
         // bus
         this.bus = this.add.sprite(game.config.width*1.1, game.config.height*.60, 'bus').setScale(0.7);
