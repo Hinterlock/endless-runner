@@ -95,7 +95,7 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('run', {start: 0, end: 16}),
+            frames: this.anims.generateFrameNumbers('run', {start: 1, end: 15}),
             frameRate: 10,
             repeat: -1
         });
@@ -103,6 +103,11 @@ class Play extends Phaser.Scene {
             key: 'trip', 
             frames: this.anims.generateFrameNumbers('trip', {start: 0, end: 5}),
             frameRate: 6
+        })
+        this.anims.create({
+            key: 'slide', 
+            frames: this.anims.generateFrameNumbers('slide', {start: 0, end: 16}),
+            frameRate: 10
         })
 
         // define keys
@@ -274,7 +279,8 @@ class Play extends Phaser.Scene {
     
     startSlide(guy) {
         guy.anims.stop();
-        guy.setTexture('guy_slide');
+        guy.setTexture('guy');
+        this.p1Guy.anims.play('slide');
         this.sliding = true;
         this.p1Guy.body.setSize(400, 200, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y + 85);
