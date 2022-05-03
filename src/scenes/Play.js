@@ -21,6 +21,7 @@ class Play extends Phaser.Scene {
         this.load.image('student', './assets/student.png');
         this.load.image('gameover', './assets/game_over.png');
         this.load.image('bg', './assets/bg.png');
+        this.load.image('forest', './assets/forest.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
         this.load.spritesheet('run', './assets/run_spritesheet.png', {frameWidth: 457, frameHeight: 577, startFrame: 0, endFrame: 16});
@@ -36,10 +37,11 @@ class Play extends Phaser.Scene {
     create() {
         // background
         this.notebookbg = this.add.tileSprite(0, 0, 970, 600, 'notebookbg').setOrigin(0, 0);
+        this.forest = this.add.tileSprite(0, 0, 970, 600, 'forest').setOrigin(0, 0);
         this.trees = this.add.tileSprite(0, 0, 970, 600, 'trees').setOrigin(0, 0);
         this.animals = this.add.tileSprite(0, 0, 970, 600, 'animals').setOrigin(0, 0);
         this.bush_bg = this.add.tileSprite(0, 0, 970, 600, 'bush_bg').setOrigin(0, 0);
-        this.bushes = this.add.tileSprite(0, 0, 970, 600, 'bushes').setOrigin(0, 0)
+        this.bushes = this.add.tileSprite(0, 0, 970, 600, 'bushes').setOrigin(0, 0);
         //this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
 
         // ground
@@ -183,6 +185,7 @@ class Play extends Phaser.Scene {
         this.animals.tilePositionX += this.spd / 4;
         this.bush_bg.tilePositionX += this.spd / 2;
         this.bushes.tilePositionX += this.spd;
+        this.forest.tilePositionX += this.spd / 5;
 
         this.groundObj.tilePositionX += this.spd;
 
