@@ -37,8 +37,8 @@ class Play extends Phaser.Scene {
     create() {
         // background
         this.notebookbg = this.add.tileSprite(0, 0, 970, 600, 'notebookbg').setOrigin(0, 0);
-        this.forest = this.add.tileSprite(0, 0, 970, 600, 'forest').setOrigin(0, 0);
-        this.trees = this.add.tileSprite(0, 0, 970, 600, 'trees').setOrigin(0, 0);
+        this.forest = this.add.tileSprite(0, 0, 2913, 600, 'forest').setOrigin(0, 0);
+        this.trees = this.add.tileSprite(0, 0, 2913, 600, 'trees').setOrigin(0, 0);
         this.animals = this.add.tileSprite(0, 0, 970, 600, 'animals').setOrigin(0, 0);
         this.bush_bg = this.add.tileSprite(0, 0, 970, 600, 'bush_bg').setOrigin(0, 0);
         this.bushes = this.add.tileSprite(0, 0, 970, 600, 'bushes').setOrigin(0, 0);
@@ -106,7 +106,7 @@ class Play extends Phaser.Scene {
         })
         this.anims.create({
             key: 'slide', 
-            frames: this.anims.generateFrameNumbers('slide', {start: 0, end: 16}),
+            frames: this.anims.generateFrameNumbers('slide', {start: 3, end: 16}),
             frameRate: 10
         })
 
