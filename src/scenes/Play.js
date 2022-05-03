@@ -51,7 +51,7 @@ class Play extends Phaser.Scene {
         this.groundObj.body.setOffset(this.groundObj.body.offset.x, this.groundObj.body.offset.y + borderUISize);
 
         // create guy
-        this.p1Guy = this.physics.add.sprite(game.config.width/8, game.config.height/2, 'guy_stand').setScale(0.42);
+        this.p1Guy = this.physics.add.sprite(game.config.width/8, game.config.height/2, 'run').setScale(0.42);
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
         this.p1Guy.body.setSize(200, 400, true);
@@ -95,7 +95,7 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('run', {start: 1, end: 15}),
+            frames: this.anims.generateFrameNumbers('run', {start: 0, end: 17}),
             frameRate: 10,
             repeat: -1
         });
