@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
         this.load.image('clouds', './assets/clouds.png');
         this.load.image('ground', './assets/ground.png');
         this.load.image('trees', './assets/trees.png');
-        this.load.image('animals', './assets/animals.png');
+        //this.load.image('animals', './assets/animals.png');
         this.load.image('bush_bg', './assets/bush_bg.png');
         this.load.image('bushes', './assets/bushes.png');
         this.load.image('groundEmpty', './assets/groundEmpty.png');
@@ -20,7 +20,7 @@ class Play extends Phaser.Scene {
         this.load.image('turkey', './assets/turkey.png');
         this.load.image('student', './assets/student.png');
         this.load.image('gameover', './assets/game_over.png');
-        this.load.image('bg', './assets/bg.png');
+        this.load.image('campus', './assets/campus.png');
         this.load.image('forest', './assets/forest.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
@@ -38,8 +38,9 @@ class Play extends Phaser.Scene {
         // background
         this.notebookbg = this.add.tileSprite(0, 0, 970, 600, 'notebookbg').setOrigin(0, 0);
         this.forest = this.add.tileSprite(0, 0, 2913, 600, 'forest').setOrigin(0, 0);
-        this.trees = this.add.tileSprite(0, 0, 2913, 600, 'trees').setOrigin(0, 0);
-        this.animals = this.add.tileSprite(0, 0, 970, 600, 'animals').setOrigin(0, 0);
+        this.campus = this.add.tileSprite(0, 0, 2913, 600, 'campus').setOrigin(0, 0);
+        //this.trees = this.add.tileSprite(0, 0, 2913, 600, 'trees').setOrigin(0, 0);
+        //this.animals = this.add.tileSprite(0, 0, 970, 600, 'animals').setOrigin(0, 0);
         this.bush_bg = this.add.tileSprite(0, 0, 970, 600, 'bush_bg').setOrigin(0, 0);
         this.bushes = this.add.tileSprite(0, 0, 970, 600, 'bushes').setOrigin(0, 0);
         //this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
@@ -181,8 +182,9 @@ class Play extends Phaser.Scene {
 
         // background moving 
         //this.clouds.tilePositionX += this.spd / 8;
-        this.trees.tilePositionX += this.spd / 4;
-        this.animals.tilePositionX += this.spd / 4;
+        //this.trees.tilePositionX += this.spd / 4;
+        //this.animals.tilePositionX += this.spd / 4;
+        this.campus.tilePositionX += this.spd / 6;
         this.bush_bg.tilePositionX += this.spd / 2;
         this.bushes.tilePositionX += this.spd;
         this.forest.tilePositionX += this.spd / 5;
