@@ -168,7 +168,7 @@ class Play extends Phaser.Scene {
                 // play tripping animation
                 this.p1Guy.anims.play('trip');
                 this.p1Guy.on('animationcomplete', () => {
-                this.roll(thisp1Guy);
+                this.roll(this.p1Guy);
                 });
                 
             }
