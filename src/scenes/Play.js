@@ -21,6 +21,7 @@ class Play extends Phaser.Scene {
         this.load.image('student', './assets/student.png');
         this.load.image('gameover', './assets/game_over.png');
         this.load.image('bg', './assets/bg.png');
+        this.load.image('forest', './assets/forest.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
         this.load.spritesheet('run', './assets/run_spritesheet.png', {frameWidth: 457, frameHeight: 577, startFrame: 0, endFrame: 16});
@@ -36,10 +37,11 @@ class Play extends Phaser.Scene {
     create() {
         // background
         this.notebookbg = this.add.tileSprite(0, 0, 970, 600, 'notebookbg').setOrigin(0, 0);
-        this.trees = this.add.tileSprite(0, 0, 970, 600, 'trees').setOrigin(0, 0);
+        this.forest = this.add.tileSprite(0, 0, 2913, 600, 'forest').setOrigin(0, 0);
+        this.trees = this.add.tileSprite(0, 0, 2913, 600, 'trees').setOrigin(0, 0);
         this.animals = this.add.tileSprite(0, 0, 970, 600, 'animals').setOrigin(0, 0);
         this.bush_bg = this.add.tileSprite(0, 0, 970, 600, 'bush_bg').setOrigin(0, 0);
-        this.bushes = this.add.tileSprite(0, 0, 970, 600, 'bushes').setOrigin(0, 0)
+        this.bushes = this.add.tileSprite(0, 0, 970, 600, 'bushes').setOrigin(0, 0);
         //this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
 
         // ground
@@ -49,14 +51,12 @@ class Play extends Phaser.Scene {
         this.groundObj.body.setOffset(this.groundObj.body.offset.x, this.groundObj.body.offset.y + borderUISize);
 
         // create guy
-        this.p1Guy = this.physics.add.sprite(game.config.width/8, game.config.height/2, 'guy_stand').setScale(0.42);
+        this.p1Guy = this.physics.add.sprite(game.config.width/8, game.config.height/2, 'run').setScale(0.42);
         this.p1Guy.setCollideWorldBounds(true);
         this.physics.add.collider(this.p1Guy, this.ground);
         this.p1Guy.body.setSize(200, 400, true);
         this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
 
-        //anim scale test
-        
 
         // bus
         this.bus = this.add.sprite(game.config.width*1.1, game.config.height*.60, 'bus').setScale(0.7);
@@ -101,25 +101,14 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'trip', 
-            frames: this.anims.generateFrameNumbers('trip', {start: 0, end: 3}),
+            frames: this.anims.generateFrameNumbers('trip', {start: 0, end: 5}),
             frameRate: 6
-        });
+        })
         this.anims.create({
             key: 'slide', 
-            frames: this.anims.generateFrameNumbers('slide', {start: 0, end: 7}),
+            frames: this.anims.generateFrameNumbers('slide', {start: 3, end: 16}),
             frameRate: 10
-        });
-        this.anims.create({
-            key: 'sliding', 
-            frames: this.anims.generateFrameNumbers('slide', {start: 7, end: 11}),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'endSlide', 
-            frames: this.anims.generateFrameNumbers('slide', {start: 11, end: 15}),
-            frameRate: 10,
-        });
+        })
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -167,7 +156,9 @@ class Play extends Phaser.Scene {
                 // play tripping animation
                 this.p1Guy.anims.play('trip');
                 this.p1Guy.on('animationcomplete', () => {
-                    this.roll(this.p1Guy);
+                    this.p1Guy.anims.play('run');
+                    this.p1Guy.body.setSize(200, 400, true);
+                    this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
                 });
                 
             }
@@ -194,6 +185,7 @@ class Play extends Phaser.Scene {
         this.animals.tilePositionX += this.spd / 4;
         this.bush_bg.tilePositionX += this.spd / 2;
         this.bushes.tilePositionX += this.spd;
+        this.forest.tilePositionX += this.spd / 5;
 
         this.groundObj.tilePositionX += this.spd;
 
@@ -202,7 +194,6 @@ class Play extends Phaser.Scene {
             this.bus.setX(this.bus.x + 3);
             //this.sound.play('pullaway'); holy fuck this is so loud i need to change it
         }
-        // bus bobbing
         this.bus.y += Math.sin(this.time.now/300)/2;
 
         // falling animation
@@ -216,14 +207,16 @@ class Play extends Phaser.Scene {
         // landing
         if (this.falling && this.p1Guy.body.touching.down) {
             this.falling = false;
-            this.roll(this.p1Guy);
+            this.p1Guy.anims.play('run');
+            this.p1Guy.body.setSize(200, 400, true);
+            this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
         }
 
         // jumping animation
         if (!this.sliding && this.p1Guy.body.touching.down && Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.startJump(this.p1Guy);
+            this.startJump(this.p1Guy)
+            this.sound.play('jump');
         }
-        // extended jump if space is held down
         if (!this.falling && !this.p1Guy.body.touching.down && keySPACE.isDown) {
             this.p1Guy.setAccelerationY(-400);
         } else {
@@ -279,40 +272,30 @@ class Play extends Phaser.Scene {
 
 
     startJump(guy) {
-        this.sound.play('jump');
         guy.setVelocityY(-600);
         guy.anims.play('jump');
-        guy.body.setSize(200, 400, true);
-        guy.body.setOffset(guy.body.offset.x + 50, guy.body.offset.y - 15);
+        this.p1Guy.body.setSize(200, 400, true);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
     }
     
     startSlide(guy) {
-        guy.anims.play('slide');
+        guy.anims.stop();
+        guy.setTexture('guy');
+        this.p1Guy.anims.play('slide');
         this.sliding = true;
-        guy.body.setSize(200, 250, true);
-        guy.body.setOffset(guy.body.offset.x + 50, guy.body.offset.y + 60);
-        guy.on('animationcomplete', () => {
-            guy.anims.play('sliding');
-        });
+        this.p1Guy.body.setSize(400, 200, true);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x, this.p1Guy.body.offset.y + 85);
     }
 
     endSlide(guy) {
         this.slideDelay = true;
-        guy.anims.play('endSlide');
         this.sliding = false;
-        guy.on('animationcomplete', () => {
-            guy.anims.play('run');
-        });
-        guy.body.setSize(200, 400, true);
-        guy.body.setOffset(guy.body.offset.x + 50, guy.body.offset.y - 15);
-        this.time.delayedCall(200, () => {
+        guy.setTexture('guy');
+        this.p1Guy.anims.play('run');
+        this.p1Guy.body.setSize(200, 400, true);
+        this.p1Guy.body.setOffset(this.p1Guy.body.offset.x + 50, this.p1Guy.body.offset.y - 15);
+        this.time.delayedCall(700, () => {
             this.slideDelay = false;
         });
-    }
-
-    roll(guy) {
-        guy.anims.play('run');
-        guy.body.setSize(200, 400, true);
-        guy.body.setOffset(guy.body.offset.x + 50, guy.body.offset.y - 15);
     }
 }
