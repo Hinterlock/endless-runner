@@ -43,7 +43,7 @@ class Play extends Phaser.Scene {
         //this.animals = this.add.tileSprite(0, 0, 970, 600, 'animals').setOrigin(0, 0);
         this.bush_bg = this.add.tileSprite(0, 0, 970, 600, 'bush_bg').setOrigin(0, 0);
         this.bushes = this.add.tileSprite(0, 0, 970, 600, 'bushes').setOrigin(0, 0);
-        //this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
+        this.clouds = this.add.tileSprite(0, 0, 0, 0, 'clouds').setOrigin(0, 0);
 
         // ground
         this.groundObj = this.add.tileSprite(game.config.width/2, game.config.height - borderUISize, 0, 0, 'ground');
@@ -190,7 +190,7 @@ class Play extends Phaser.Scene {
         }
 
         // background moving 
-        //this.clouds.tilePositionX += this.spd / 8;
+        this.clouds.tilePositionX += this.spd / 8;
         //this.trees.tilePositionX += this.spd / 4;
         //this.animals.tilePositionX += this.spd / 4;
         this.campus.tilePositionX += this.spd / 6;
