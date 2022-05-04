@@ -96,7 +96,7 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('run', {start: 0, end: 14}),
+            frames: this.anims.generateFrameNumbers('run', {start: 1, end: 15}),
             frameRate: 10,
             repeat: -1
         });
@@ -107,7 +107,11 @@ class Play extends Phaser.Scene {
         })
         this.anims.create({
             key: 'slide', 
+<<<<<<< HEAD
             frames: this.anims.generateFrameNumbers('slide', {start: 3, end: 16}),
+=======
+            frames: this.anims.generateFrameNumbers('slide', {start: 0, end: 16}),
+>>>>>>> parent of e1b6c30 (fixed animation frame numbers, cleaned up code)
             frameRate: 10
         })
 
