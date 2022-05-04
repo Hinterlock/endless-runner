@@ -12,7 +12,6 @@ class Play extends Phaser.Scene {
         this.load.image('clouds', './assets/clouds.png');
         this.load.image('ground', './assets/ground.png');
         this.load.image('trees', './assets/trees.png');
-        //this.load.image('animals', './assets/animals.png');
         this.load.image('bush_bg', './assets/bush_bg.png');
         this.load.image('bushes', './assets/bushes.png');
         this.load.image('groundEmpty', './assets/groundEmpty.png');
@@ -21,7 +20,6 @@ class Play extends Phaser.Scene {
         this.load.image('student', './assets/student.png');
         this.load.image('gameover', './assets/game_over.png');
         this.load.image('campus', './assets/campus.png');
-        this.load.image('forest', './assets/forest.png');
         // load spritesheet
         this.load.spritesheet('guy', './assets/spritesheet.png', {frameWidth: 393, frameHeight: 494, startFrame: 0, endFrame: 12});
         this.load.spritesheet('run', './assets/run_spritesheet.png', {frameWidth: 457, frameHeight: 577, startFrame: 0, endFrame: 16});
@@ -31,6 +29,7 @@ class Play extends Phaser.Scene {
         // load sound effects
         this.load.audio('jump', './assets/jump.mp3');
         this.load.audio('crash', './assets/crash.wav');
+        this.load.audio('music', './assets/music.wav');
         //this.load.audio('pullaway', './assets/pullaway.wav');
     }
 
@@ -135,9 +134,30 @@ class Play extends Phaser.Scene {
         this.gameover = false;
         this.stumble = false;
         this.slideDelay = false;
+
+        // music creation
+        this.musicConfig = {          
+            mute: false,           
+            volume: 4,          
+            rate: 1,           
+            detune: 0,           
+            seek: 0,           
+            loop: false,         
+            delay: 0
+            }               
+        this.counter = 0;     
+        this.music= this.sound.add("music");
+
     }
 
-    update() {
+    update() {    
+        this.counter += 1;      
+        // This is literally just to get the music to play once.      
+        if (this.counter == 1){          
+            this.music.play(this.musicConfig);     
+        }
+    
+
         // enemy spawning
         if (this.spawn) {
             this.newEnemy();
@@ -186,6 +206,7 @@ class Play extends Phaser.Scene {
                 this.scoreLeft.text = this.p1Score;
             }
         } else if(this.gameover == true){
+            this.music.stop();
             this.scene.start('endgameScene'); 
         }
 
